@@ -1,0 +1,109 @@
+{
+  "products": [
+    {
+      "_id": "1",
+      "name": "Refrigerator 1",
+      "category": "Fridge",
+      "commonAttributes": {
+        "price": 999.99,
+        "manufacturer": "Brand1",
+        "description": "Product description 1",
+        "imageURL": "image1.jpg"
+      },
+      "categoryAttributes": {
+        "doors": 2,
+        "electricScale": "Digital"
+      }
+    },
+    {
+      "_id": "2",
+      "name": "Refrigerator 2",
+      "category": "Fridge",
+      "commonAttributes": {
+        "price": 1099.99,
+        "manufacturer": "Brand2",
+        "description": "Product description 2",
+        "imageURL": "image2.jpg"
+      },
+      "categoryAttributes": {
+        "doors": 3,
+        "electricScale": "Digital"
+      }
+    },
+    {
+      "_id": "3",
+      "name": "Washing Machine",
+      "category": "Appliance",
+      "commonAttributes": {
+        "price": 799.99,
+        "manufacturer": "Brand3",
+        "description": "Product description 3",
+        "imageURL": "image3.jpg"
+      },
+      "categoryAttributes": {
+        "loadCapacity": "8kg",
+        "energyEfficiency": "A+"
+      }
+    },
+    {
+      "_id": "4",
+      "name": "Smartphone",
+      "category": "Electronics",
+      "commonAttributes": {
+        "price": 499.99,
+        "manufacturer": "Brand4",
+        "description": "Product description 4",
+        "imageURL": "image4.jpg"
+      },
+      "categoryAttributes": {
+        "screenSize": "6 inches",
+        "RAM": "8GB"
+      }
+    },
+    {
+      "_id": "5",
+      "name": "Laptop",
+      "category": "Electronics",
+      "commonAttributes": {
+        "price": 1299.99,
+        "manufacturer": "Brand5",
+        "description": "Product description 5",
+        "imageURL": "image5.jpg"
+      },
+      "categoryAttributes": {
+        "processor": "Intel i7",
+        "RAM": "16GB"
+      }
+    },
+    {
+      "_id": "6",
+      "name": "Running Shoes",
+      "category": "Footwear",
+      "commonAttributes": {
+        "price": 89.99,
+        "manufacturer": "Brand6",
+        "description": "Product description 6",
+        "imageURL": "image6.jpg"
+      },
+      "categoryAttributes": {
+        "size": "10",
+        "color": "Blue"
+      }
+    },
+    {
+      "_id": "7",
+      "name": "LED TV",
+      "category": "Electronics",
+      "commonAttributes": {
+        "price": 799.99,
+        "manufacturer": "Brand7",
+        "description": "Product description 7",
+        "imageURL": "image7.jpg"
+      },
+      "categoryAttributes": {
+        "screenSize": "55 inches",
+        "resolution": "4K"
+      }
+    }
+  ]
+}
