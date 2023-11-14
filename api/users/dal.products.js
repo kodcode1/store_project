@@ -4,7 +4,7 @@ const uri = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
 const client = new MongoClient(uri);
 
 // MongoDB Database and Collection names
-const dbName = "project-data";
+const dbName = "my-store";
 const collectionName = "products";
 
 const connectToMongo = async () => {
