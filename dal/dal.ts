@@ -1,11 +1,9 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-import { log } from "console";
-import { product } from "../interfaces";
-const mongoose = require('mongoose');
+import { MongoClient } from "mongodb";
+import { UserData } from "../interfaces";
 
 const url = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
-
 const client = new MongoClient(url);
+
 async function run() {
   try {
     await client.connect();
@@ -35,7 +33,6 @@ async function addProduct() {
     const p = await col.insertOne(productDocument);
     const filter = { name: "4K Television" };
     const document = await col.findOne(filter);
-    console.log("Document found:\n" + JSON.stringify(document));
   } catch (err) {
     console.log(err);
   } finally {
@@ -43,40 +40,102 @@ async function addProduct() {
   }
 }
 
+const getAllProducts = async () => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("products");
+    const products = col.find({}).sort({ clicks: -1 });
+    return products;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
+
 const getProductsByCategory = async (category: string) => {
   try {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("products");
-    const products = (await col.find({ category: `${category}` }).sort({'commonAttributes.price': -1}).toArray())
-    console.log("Document found:\n" + JSON.stringify(products));
-    console.log(products);
+    const products = await col
+      .find({ category: `${category}` })
+      .sort({ "commonAttributes.price": -1 })
+      .toArray();
     return products;
   } catch (err) {
     console.log(err);
-  }finally {
+  } finally {
     await client.close();
   }
 };
 
 const getAllCategories = async () => {
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-      const col = db.collection("category");
-      const category = ((await col.find({}).toArray()));
-      console.log("Document found:\n" + JSON.stringify(category));
-      return category;
-    } catch (err) {
-      console.log(err);
-    }finally {
-      await client.close();
-    }
-  };
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("category");
+    const category = await col.find({}).sort({ clicks: -1 }).toArray();
+    return category;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
 
-module.exports = {
+const login = async (data: UserData) => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("users");
+
+    let result = await col.findOne({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!result) {
+      console.log("User not found");
+    } else {
+      console.log("User is found");
+    }
+
+    return result;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
+
+const register = async (data: UserData) => {
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("users");
+
+    const newUser = {
+      email: data.email,
+      password: data.password,
+    };
+
+    const result = await col.insertOne(newUser);
+    return result;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+};
+
+export {
   run,
   addProduct,
+  getAllProducts,
   getProductsByCategory,
-  getAllCategories
+  getAllCategories,
+  login,
+  register,
 };
