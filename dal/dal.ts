@@ -1,8 +1,9 @@
 import { MongoClient } from "mongodb";
-import { UserData } from "../interfaces";
+import { UserData, Product } from "../interfaces";
 
 const url = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
 const client = new MongoClient(url);
+const dbName = "my-store";
 
 async function run() {
   try {
@@ -10,14 +11,8 @@ async function run() {
     console.log("Successfully connected to Atlas");
   } catch (err) {
     console.log(err);
-  } finally {
-    await client.close();
   }
 }
-
-const dbName = "my-store";
-
-
 
 const getAllProducts = async () => {
   try {
@@ -65,6 +60,23 @@ const getAllCategories = async () => {
   }
 };
 
+const addProductToCart = async (product: Product, userId: number) => {
+  try {
+    const db = client.db(dbName);
+    const col = db.collection("users");
+    const user = await col.findOne({ user_id: userId });
+    if (user) {
+      let new_cart = user.cart;
+      new_cart.push(product);
+      col.updateOne({ user_id: userId }, { $set: { cart: new_cart } });
+      user.cart = new_cart;
+    }
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const login = async (data: UserData) => {
   try {
     await client.connect();
@@ -85,8 +97,6 @@ const login = async (data: UserData) => {
     return result;
   } catch (err) {
     console.log(err);
-  } finally {
-    await client.close();
   }
 };
 
@@ -105,8 +115,6 @@ const register = async (data: UserData) => {
     return result;
   } catch (err) {
     console.log(err);
-  } finally {
-    await client.close();
   }
 };
 
@@ -143,6 +151,7 @@ export {
   getAllProducts,
   getProductsByCategory,
   getAllCategories,
+  addProductToCart,
   login,
   register,
   clickUpdateProduct,

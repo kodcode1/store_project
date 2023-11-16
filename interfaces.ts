@@ -1,10 +1,8 @@
-export interface product {
-  name: string;
+export interface Product {
+  product_id: number,
+  quantity: number,
   image: string;
-  description: string;
-  category: string;
-  price: number;
-  clicks?: number;
+  price: string;
 }
 
 export interface UserData {

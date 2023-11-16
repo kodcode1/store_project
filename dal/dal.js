@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clickUpdateCategory = exports.clickUpdateProduct = exports.register = exports.login = exports.getAllCategories = exports.getProductsByCategory = exports.getAllProducts = exports.run = void 0;
+exports.clickUpdateCategory = exports.clickUpdateProduct = exports.register = exports.login = exports.addProductToCart = exports.getAllCategories = exports.getProductsByCategory = exports.getAllProducts = exports.run = void 0;
 const mongodb_1 = require("mongodb");
 const url = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
 const client = new mongodb_1.MongoClient(url);
+const dbName = "my-store";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -22,13 +23,9 @@ function run() {
         catch (err) {
             console.log(err);
         }
-        finally {
-            yield client.close();
-        }
     });
 }
 exports.run = run;
-const dbName = "my-store";
 const getAllProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
@@ -81,6 +78,24 @@ const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllCategories = getAllCategories;
+const addProductToCart = (product, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const db = client.db(dbName);
+        const col = db.collection("users");
+        const user = yield col.findOne({ user_id: userId });
+        if (user) {
+            let new_cart = user.cart;
+            new_cart.push(product);
+            col.updateOne({ user_id: userId }, { $set: { cart: new_cart } });
+            user.cart = new_cart;
+        }
+        return user;
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+exports.addProductToCart = addProductToCart;
 const login = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
@@ -101,9 +116,6 @@ const login = (data) => __awaiter(void 0, void 0, void 0, function* () {
     catch (err) {
         console.log(err);
     }
-    finally {
-        yield client.close();
-    }
 });
 exports.login = login;
 const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -120,9 +132,6 @@ const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         console.log(err);
-    }
-    finally {
-        yield client.close();
     }
 });
 exports.register = register;
