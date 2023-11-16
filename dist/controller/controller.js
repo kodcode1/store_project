@@ -29,7 +29,7 @@ exports.getAllProductsController = getAllProductsController;
 const getProductByCategoryController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { category } = req.params;
-        const products = yield (0, service_1.getProductByCategory)(category);
+        const products = yield (0, service_1.getProductByCategory)(Number(category));
         if (products) {
             return res.status(200).json(products);
         }

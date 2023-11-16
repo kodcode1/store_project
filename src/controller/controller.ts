@@ -30,7 +30,7 @@ export const getProductByCategoryController = async (
 ) => {
   try {
     const { category } = req.params;
-    const products = await getProductByCategory(category);
+    const products = await getProductByCategory(Number(category));
     if (products) {
       return res.status(200).json(products);
     } else {

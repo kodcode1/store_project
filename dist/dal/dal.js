@@ -49,7 +49,7 @@ const getProductsByCategory = (category) => __awaiter(void 0, void 0, void 0, fu
         const db = client.db(dbName);
         const col = db.collection("products");
         const products = yield col
-            .find({ 'category.name': `${category}` })
+            .find({ 'category.id': category })
             .sort({ "commonAttributes.price": -1 })
             .toArray();
         return products;
