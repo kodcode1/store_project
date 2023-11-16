@@ -1,5 +1,5 @@
 {
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon .",
     "tsc": "tsc -w"
