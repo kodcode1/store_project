@@ -5,7 +5,10 @@ import {
   login,
   register,
   getAllProducts,
+  clickUpdateProduct,
+  clickUpdateCategory,
 } from "../service/service";
+import { log } from "console";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
   try {
@@ -80,9 +83,40 @@ export const registerController = async (req: Request, res: Response) => {
   }
 };
 
+export const clickUpdateProductController = async (req:Request, res:Response)=>{
+  try {
+    const { id } = req.params;
+    const product = await clickUpdateProduct(Number(id));
+    if (product) return res.status(200).json(product);
+    else {
+      return res.status(404).json({ message: "No product found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error while retrieving product" });
+  }
+}
+
+export const clickUpdateCategoryController = async (req:Request, res:Response)=>{
+  try {
+    const { id } = req.params;
+    const category = await clickUpdateCategory(Number(id));
+    if (category) return res.status(200).json(category);
+    else {
+      return res.status(404).json({ message: "No Category found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error while retrieving product" });
+  }
+}
+
+
 export const controller = {
   getAllCategory: getAllCategoryController,
   getProductByCategory: getProductByCategoryController,
   login: loginController,
   register: registerController,
+  clickUpdateProduct:clickUpdateProductController,
+  clickUpdateCategory:clickUpdateCategoryController
 };

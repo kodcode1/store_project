@@ -17,35 +17,15 @@ async function run() {
 
 const dbName = "my-store";
 
-async function addProduct() {
-  try {
-    await client.connect();
-    const db = client.db(dbName);
-    const col = db.collection("products");
-    let productDocument = {
-      name: ``,
-      image: ``,
-      category: ``,
-      description: ``,
-      price: ``,
-      Clicks: 0,
-    };
-    const p = await col.insertOne(productDocument);
-    const filter = { name: "4K Television" };
-    const document = await col.findOne(filter);
-  } catch (err) {
-    console.log(err);
-  } finally {
-    await client.close();
-  }
-}
+
 
 const getAllProducts = async () => {
   try {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("products");
-    const products = col.find({}).sort({ clicks: -1 });
+    const products =await col.find({}).sort({ rating: -1 }).toArray();
+    console.log(products);
     return products;
   } catch (err) {
     console.log(err);
@@ -60,7 +40,7 @@ const getProductsByCategory = async (category: string) => {
     const db = client.db(dbName);
     const col = db.collection("products");
     const products = await col
-      .find({ category: `${category}` })
+      .find({ 'category.name': `${category}` })
       .sort({ "commonAttributes.price": -1 })
       .toArray();
     return products;
@@ -76,7 +56,8 @@ const getAllCategories = async () => {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("category");
-    const category = await col.find({}).sort({ clicks: -1 }).toArray();
+    const category = await col.find({}).sort({ rating: -1 }).toArray();
+    console.log(category);
     return category;
   } catch (err) {
     console.log(err);
@@ -130,12 +111,41 @@ const register = async (data: UserData) => {
   }
 };
 
+const clickUpdateProduct = async (id:number)=>{
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("products");
+    await col.updateOne({ id }, { $inc: { rating: 1 } });
+    return 1
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+}
+
+const clickUpdateCategory = async (id:number)=>{
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("category");
+    await col.updateOne({ id }, { $inc: { rating: 1 } });
+    return 1
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+}
+
 export {
   run,
-  addProduct,
   getAllProducts,
   getProductsByCategory,
   getAllCategories,
   login,
   register,
+  clickUpdateProduct,
+  clickUpdateCategory,
 };
