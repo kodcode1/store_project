@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = exports.getAllCategory = exports.getProductByCategory = exports.getAllProducts = void 0;
+exports.register = exports.login = exports.addProductToCart = exports.getAllCategory = exports.getProductByCategory = exports.getAllProducts = void 0;
 const dal = __importStar(require("../dal/dal"));
 const getAllProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -67,6 +67,17 @@ const getAllCategory = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllCategory = getAllCategory;
+const addProductToCart = (product, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = dal.addProductToCart(product, userId);
+        return result;
+    }
+    catch (err) {
+        console.error("Error reading data:", err);
+        throw err;
+    }
+});
+exports.addProductToCart = addProductToCart;
 const login = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield dal.login(data);
