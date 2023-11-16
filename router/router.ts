@@ -24,8 +24,8 @@ router.post('/ratingC/:id', clickUpdateCategoryController)
 
 router.get("/products", getAllProductsController);
 
-router.get("/:category", getProductByCategoryController);
+router.get("/categories/:category", getProductByCategoryController);
 
-router.get("/all/categories", getAllCategoryController);
+router.get("/categories", getAllCategoryController);
 
 export default router;
