@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.controller = exports.clickUpdateCategoryController = exports.clickUpdateProductController = exports.registerController = exports.loginController = exports.getAllCategoryController = exports.getProductByCategoryController = exports.getAllProductsController = void 0;
+exports.controller = exports.clickUpdateCategoryController = exports.clickUpdateProductController = exports.registerController = exports.loginController = exports.addProductToCartController = exports.getAllCategoryController = exports.getProductByCategoryController = exports.getAllProductsController = void 0;
 const service_1 = require("../service/service");
 const getAllProductsController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -58,6 +58,23 @@ const getAllCategoryController = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getAllCategoryController = getAllCategoryController;
+const addProductToCartController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const product = req.body;
+        const userId = parseInt(req.params.id);
+        const newProduct = yield (0, service_1.addProductToCart)(product, userId);
+        if (newProduct)
+            return res.status(200).json(newProduct);
+        else {
+            return res.status(404).json({ message: "Product not found" });
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error while retrieving products" });
+    }
+});
+exports.addProductToCartController = addProductToCartController;
 const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const loginData = req.body;
@@ -125,6 +142,7 @@ exports.clickUpdateCategoryController = clickUpdateCategoryController;
 exports.controller = {
     getAllCategory: exports.getAllCategoryController,
     getProductByCategory: exports.getProductByCategoryController,
+    addProductToCart: exports.addProductToCartController,
     login: exports.loginController,
     register: exports.registerController,
     clickUpdateProduct: exports.clickUpdateProductController,

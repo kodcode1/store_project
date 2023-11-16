@@ -3,6 +3,7 @@ import {
   getAllProductsController,
   getProductByCategoryController,
   getAllCategoryController,
+  addProductToCartController,
   loginController,
   registerController,
   clickUpdateProductController,
@@ -14,6 +15,8 @@ const router: Router = express.Router();
 router.post("/login", loginController);
 
 router.post("/register", registerController);
+
+router.post("/add/:id", addProductToCartController);
 
 router.post('/ratingP/:id', clickUpdateProductController)
 

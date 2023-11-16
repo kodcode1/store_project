@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   getProductByCategory,
   getAllCategory,
+  addProductToCart,
   login,
   register,
   getAllProducts,
@@ -50,6 +51,24 @@ export const getAllCategoryController = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Server error while retrieving products" });
+  }
+};
+
+export const addProductToCartController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const product = req.body;
+    const userId = parseInt(req.params.id);
+    const newProduct = await addProductToCart(product, userId);
+    if (newProduct) return res.status(200).json(newProduct);
+    else {
+      return res.status(404).json({ message: "Product not found" });
+    }
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error while retrieving products" });
   }
 };
@@ -115,6 +134,7 @@ export const clickUpdateCategoryController = async (req:Request, res:Response)=>
 export const controller = {
   getAllCategory: getAllCategoryController,
   getProductByCategory: getProductByCategoryController,
+  addProductToCart: addProductToCartController,
   login: loginController,
   register: registerController,
   clickUpdateProduct:clickUpdateProductController,
