@@ -11,7 +11,7 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getProductByCategory = (category: string) => {
+export const getProductByCategory = (category: number) => {
   try {
     const products = dal.getProductsByCategory(category);
     return products;

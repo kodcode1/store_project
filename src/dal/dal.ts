@@ -15,13 +15,13 @@ const getAllProducts = async () => {
   }
 };
 
-const getProductsByCategory = async (category: string) => {
+const getProductsByCategory = async (category: number) => {
   try {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("products");
     const products = await col
-      .find({ "category.name": `${category}` })
+      .find({ 'category.id': category })
       .sort({ "commonAttributes.price": -1 })
       .toArray();
     return products;
