@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = exports.addProductToCart = exports.getAllCategory = exports.getProductByCategory = exports.getAllProducts = void 0;
+exports.clickUpdateCategory = exports.clickUpdateProduct = exports.register = exports.login = exports.addProductToCart = exports.getAllCategory = exports.getProductByCategory = exports.getAllProducts = void 0;
 const dal = __importStar(require("../dal/dal"));
 const getAllProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -100,3 +100,25 @@ const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.register = register;
+const clickUpdateProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const product = yield dal.clickUpdateProduct(id);
+        return product;
+    }
+    catch (err) {
+        console.error("Error getting data:", err);
+        throw err;
+    }
+});
+exports.clickUpdateProduct = clickUpdateProduct;
+const clickUpdateCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const category = yield dal.clickUpdateCategory(id);
+        return category;
+    }
+    catch (err) {
+        console.error("Error getting data:", err);
+        throw err;
+    }
+});
+exports.clickUpdateCategory = clickUpdateCategory;

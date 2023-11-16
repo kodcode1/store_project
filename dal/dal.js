@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = exports.addProductToCart = exports.getAllCategories = exports.getProductsByCategory = exports.getAllProducts = exports.addProduct = exports.run = void 0;
+exports.clickUpdateCategory = exports.clickUpdateProduct = exports.register = exports.login = exports.addProductToCart = exports.getAllCategories = exports.getProductsByCategory = exports.getAllProducts = exports.run = void 0;
 const mongodb_1 = require("mongodb");
 const url = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
 const client = new mongodb_1.MongoClient(url);
@@ -26,39 +26,13 @@ function run() {
     });
 }
 exports.run = run;
-function addProduct() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield client.connect();
-            const db = client.db(dbName);
-            const col = db.collection("products");
-            let productDocument = {
-                name: ``,
-                image: ``,
-                category: ``,
-                description: ``,
-                price: ``,
-                Clicks: 0,
-            };
-            const p = yield col.insertOne(productDocument);
-            const filter = { name: "4K Television" };
-            const document = yield col.findOne(filter);
-        }
-        catch (err) {
-            console.log(err);
-        }
-        finally {
-            yield client.close();
-        }
-    });
-}
-exports.addProduct = addProduct;
 const getAllProducts = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield client.connect();
         const db = client.db(dbName);
         const col = db.collection("products");
-        const products = col.find({}).sort({ clicks: -1 });
+        const products = yield col.find({}).sort({ rating: -1 }).toArray();
+        console.log(products);
         return products;
     }
     catch (err) {
@@ -75,7 +49,7 @@ const getProductsByCategory = (category) => __awaiter(void 0, void 0, void 0, fu
         const db = client.db(dbName);
         const col = db.collection("products");
         const products = yield col
-            .find({ category: `${category}` })
+            .find({ 'category.name': `${category}` })
             .sort({ "commonAttributes.price": -1 })
             .toArray();
         return products;
@@ -93,7 +67,8 @@ const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
         yield client.connect();
         const db = client.db(dbName);
         const col = db.collection("category");
-        const category = yield col.find({}).sort({ clicks: -1 }).toArray();
+        const category = yield col.find({}).sort({ rating: -1 }).toArray();
+        console.log(category);
         return category;
     }
     catch (err) {
@@ -161,3 +136,35 @@ const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.register = register;
+const clickUpdateProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield client.connect();
+        const db = client.db(dbName);
+        const col = db.collection("products");
+        yield col.updateOne({ id }, { $inc: { rating: 1 } });
+        return 1;
+    }
+    catch (err) {
+        console.log(err);
+    }
+    finally {
+        yield client.close();
+    }
+});
+exports.clickUpdateProduct = clickUpdateProduct;
+const clickUpdateCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield client.connect();
+        const db = client.db(dbName);
+        const col = db.collection("category");
+        yield col.updateOne({ id }, { $inc: { rating: 1 } });
+        return 1;
+    }
+    catch (err) {
+        console.log(err);
+    }
+    finally {
+        yield client.close();
+    }
+});
+exports.clickUpdateCategory = clickUpdateCategory;

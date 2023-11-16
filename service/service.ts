@@ -23,7 +23,7 @@ export const getProductByCategory = (category: string) => {
 
 export const getAllCategory = async () => {
   try {
-    const category = await dal.getAllCategories();
+    const category =await dal.getAllCategories();
     return category;
   } catch (err) {
     console.error("Error getting data:", err);
@@ -57,6 +57,26 @@ export const register = async (data: UserData) => {
     return users;
   } catch (err) {
     console.error("Error reading data:", err);
+    throw err;
+  }
+};
+
+export const clickUpdateProduct = async (id:number) => {
+  try {
+    const product = await dal.clickUpdateProduct(id);
+    return product
+  } catch (err) {
+    console.error("Error getting data:", err);
+    throw err;
+  }
+};
+
+export const clickUpdateCategory = async (id:number) => {
+  try {
+    const category = await dal.clickUpdateCategory(id);
+    return category
+  } catch (err) {
+    console.error("Error getting data:", err);
     throw err;
   }
 };
