@@ -57,7 +57,6 @@ const getAllCategories = async () => {
     const db = client.db(dbName);
     const col = db.collection("category");
     const category = await col.find({}).sort({ rating: -1 }).toArray();
-    console.log(category);
     return category;
   } catch (err) {
     console.log(err);

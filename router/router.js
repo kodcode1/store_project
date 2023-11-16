@@ -11,6 +11,6 @@ router.post("/register", controller_1.registerController);
 router.post('/ratingP/:id', controller_1.clickUpdateProductController);
 router.post('/ratingC/:id', controller_1.clickUpdateCategoryController);
 router.get("/products", controller_1.getAllProductsController);
-router.get("/:category", controller_1.getProductByCategoryController);
-router.get("/all/categories", controller_1.getAllCategoryController);
+router.get("/categories/:category", controller_1.getProductByCategoryController);
+router.get("/categories", controller_1.getAllCategoryController);
 exports.default = router;

@@ -71,7 +71,6 @@ const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
         const db = client.db(dbName);
         const col = db.collection("category");
         const category = yield col.find({}).sort({ rating: -1 }).toArray();
-        console.log(category);
         return category;
     }
     catch (err) {
