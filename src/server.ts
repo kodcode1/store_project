@@ -1,9 +1,13 @@
 import express from "express";
 import router from "./router/router";
-import * as connect from "./dal/dal";
+import * as connect from "./dal/dal"
+import morgan from "morgan";
+import exp from "constants";
 
 const app = express();
 const PORT = 3000;
+
+app.use(morgan('tiny'));
 
 app.use(express.json());
 

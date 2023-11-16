@@ -38,8 +38,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router_1 = __importDefault(require("./router/router"));
 const connect = __importStar(require("./dal/dal"));
+const morgan_1 = __importDefault(require("morgan"));
 const app = (0, express_1.default)();
 const PORT = 3000;
+app.use((0, morgan_1.default)('tiny'));
 app.use(express_1.default.json());
 app.use("/api", router_1.default);
 function startServer() {
