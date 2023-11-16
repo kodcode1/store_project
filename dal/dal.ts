@@ -1,4 +1,4 @@
- import { MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 import { UserData } from "../interfaces";
 
 const url = "mongodb+srv://ariel:1234@cluster0.v3rhybd.mongodb.net/";
@@ -24,7 +24,8 @@ const getAllProducts = async () => {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("products");
-    const products = col.find({}).sort({ rating: -1 }).toArray();
+    const products =await col.find({}).sort({ rating: -1 }).toArray();
+    console.log(products);
     return products;
   } catch (err) {
     console.log(err);
@@ -39,7 +40,7 @@ const getProductsByCategory = async (category: string) => {
     const db = client.db(dbName);
     const col = db.collection("products");
     const products = await col
-      .find({ category: `${category}` })
+      .find({ 'category.name': `${category}` })
       .sort({ "commonAttributes.price": -1 })
       .toArray();
     return products;
@@ -56,6 +57,7 @@ const getAllCategories = async () => {
     const db = client.db(dbName);
     const col = db.collection("category");
     const category = await col.find({}).sort({ rating: -1 }).toArray();
+    console.log(category);
     return category;
   } catch (err) {
     console.log(err);
@@ -114,8 +116,22 @@ const clickUpdateProduct = async (id:number)=>{
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("products");
-    const products = col.find({}).sort({ rating: -1 }).toArray();
-    return products;
+    await col.updateOne({ id }, { $inc: { rating: 1 } });
+    return 1
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+}
+
+const clickUpdateCategory = async (id:number)=>{
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("category");
+    await col.updateOne({ id }, { $inc: { rating: 1 } });
+    return 1
   } catch (err) {
     console.log(err);
   } finally {
@@ -130,4 +146,6 @@ export {
   getAllCategories,
   login,
   register,
+  clickUpdateProduct,
+  clickUpdateCategory,
 };

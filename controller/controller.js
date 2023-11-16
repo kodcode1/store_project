@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.controller = exports.registerController = exports.loginController = exports.getAllCategoryController = exports.getProductByCategoryController = exports.getAllProductsController = void 0;
+exports.controller = exports.clickUpdateCategoryController = exports.clickUpdateProductController = exports.registerController = exports.loginController = exports.getAllCategoryController = exports.getProductByCategoryController = exports.getAllProductsController = void 0;
 const service_1 = require("../service/service");
 const getAllProductsController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -90,9 +90,43 @@ const registerController = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.registerController = registerController;
+const clickUpdateProductController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const product = yield (0, service_1.clickUpdateProduct)(Number(id));
+        if (product)
+            return res.status(200).json(product);
+        else {
+            return res.status(404).json({ message: "No product found" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error while retrieving product" });
+    }
+});
+exports.clickUpdateProductController = clickUpdateProductController;
+const clickUpdateCategoryController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const category = yield (0, service_1.clickUpdateCategory)(Number(id));
+        if (category)
+            return res.status(200).json(category);
+        else {
+            return res.status(404).json({ message: "No Category found" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error while retrieving product" });
+    }
+});
+exports.clickUpdateCategoryController = clickUpdateCategoryController;
 exports.controller = {
     getAllCategory: exports.getAllCategoryController,
     getProductByCategory: exports.getProductByCategoryController,
     login: exports.loginController,
     register: exports.registerController,
+    clickUpdateProduct: exports.clickUpdateProductController,
+    clickUpdateCategory: exports.clickUpdateCategoryController
 };
