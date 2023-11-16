@@ -39,21 +39,24 @@ const express_1 = __importDefault(require("express"));
 const router_1 = __importDefault(require("./router/router"));
 const connect = __importStar(require("./dal/dal"));
 const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use((0, morgan_1.default)('tiny'));
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api", router_1.default);
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield connect.run();
             app.listen(PORT, () => {
                 console.log(`Server is running on port ${PORT}`);
             });
-            yield connect.run().catch(console.dir);
         }
         catch (error) {
             console.error("Error starting the server:", error);
+            process.exit(1); // Exit the process with a non-zero code to indicate an error
         }
     });
 }
