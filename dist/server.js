@@ -13,16 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const router_1 = __importDefault(require("./router/router"));
+const userRouter_1 = __importDefault(require("./router/userRouter"));
+const productRouter_1 = __importDefault(require("./router/productRouter"));
+const categoriesRoutes_1 = __importDefault(require("./router/categoriesRoutes"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const connectToDatabase_1 = require("./mongodbConnection/connectToDatabase");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
-app.use((0, morgan_1.default)('tiny'));
+app.use((0, morgan_1.default)("tiny"));
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use("/api", router_1.default);
+app.use("/api", userRouter_1.default);
+app.use("/api", productRouter_1.default);
+app.use("/api", categoriesRoutes_1.default);
 function startServer(app) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
