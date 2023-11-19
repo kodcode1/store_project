@@ -1,6 +1,7 @@
 import express from "express";
-import router from "./router/router";
-import * as connect from "./dal/dal"
+import userRouter from "./router/userRouter";
+import productRouter from "./router/productRouter";
+import categoriesRouter from "./router/categoriesRoutes";
 import morgan from "morgan";
 import cors from "cors";
 import { Express } from "express";
@@ -9,10 +10,12 @@ import { connectToDatabase } from "./mongodbConnection/connectToDatabase";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(morgan('tiny'));
+app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
-app.use("/api", router);
+app.use("/api", userRouter);
+app.use("/api", productRouter);
+app.use("/api", categoriesRouter);
 
 async function startServer(app: Express) {
   try {
@@ -27,4 +30,3 @@ async function startServer(app: Express) {
 
 // Call the function to start the server
 startServer(app);
-
