@@ -1,5 +1,5 @@
 import * as dal from "../dal/dal";
-import { UserData, Product } from "../interfaces";
+import { UserData, Product } from "../interfaces/interfaces";
 
 export const getAllProducts = async () => {
   try {
@@ -23,7 +23,7 @@ export const getProductByCategory = (category: number) => {
 
 export const getAllCategory = async () => {
   try {
-    const category =await dal.getAllCategories();
+    const category = await dal.getAllCategories();
     return category;
   } catch (err) {
     console.error("Error getting data:", err);
@@ -61,20 +61,20 @@ export const register = async (data: UserData) => {
   }
 };
 
-export const clickUpdateProduct = async (id:number) => {
+export const clickUpdateProduct = async (id: number) => {
   try {
     const product = await dal.clickUpdateProduct(id);
-    return product
+    return product;
   } catch (err) {
     console.error("Error getting data:", err);
     throw err;
   }
 };
 
-export const clickUpdateCategory = async (id:number) => {
+export const clickUpdateCategory = async (id: number) => {
   try {
     const category = await dal.clickUpdateCategory(id);
-    return category
+    return category;
   } catch (err) {
     console.error("Error getting data:", err);
     throw err;
